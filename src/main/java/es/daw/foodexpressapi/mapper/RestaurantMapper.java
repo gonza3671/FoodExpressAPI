@@ -12,8 +12,8 @@ public interface RestaurantMapper {
     Restaurant toEntity(RestaurantDTO dto);
     RestaurantDTO toDTO(Restaurant entity);
 
-    List<RestaurantDTO> toDTOs(List<Restaurant> entities);
-
-    List<Restaurant> toEntities(List<RestaurantDTO> dtos);
+//    List<RestaurantDTO> toDTOs(List<Restaurant> entities);
+//
+//    List<Restaurant> toEntities(List<RestaurantDTO> dtos);
 
 }

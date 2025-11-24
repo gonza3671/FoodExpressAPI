@@ -15,12 +15,12 @@ import java.util.Optional;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
-    private final RestaurantMapper restaurantMapper;
+    //private final RestaurantMapper restaurantMapper;
 
     public List<RestaurantDTO> getAllRestaurants(){
         return restaurantRepository.findAll().stream()
-                //.map(this::toDTO)
-                .map(restaurantMapper::toDTO)
+                .map(this::toDTO)
+                //.map(restaurantMapper::toDTO)
                 .toList();
 
     }
@@ -28,8 +28,22 @@ public class RestaurantService {
     public Optional<RestaurantDTO> create(RestaurantDTO restaurantDTO){
         Restaurant restaurant = toEntity(restaurantDTO);
         Restaurant saved = restaurantRepository.save(restaurant);
-        //return Optional.of(this.toDTO(saved));
-        return Optional.of(restaurantMapper.toDTO(saved));
+        return Optional.of(this.toDTO(saved));
+        //return Optional.of(restaurantMapper.toDTO(saved));
+    }
+
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public boolean delete(Long id){
+        if (restaurantRepository.existsById(id)) {
+            restaurantRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 
@@ -41,6 +55,7 @@ public class RestaurantService {
 //        restaurantDTO.setPhone(restaurant.getPhone());
 //        return restaurantDTO;
         return RestaurantDTO.builder()
+                .id(restaurant.getId())
                 .name(restaurant.getName())
                 .address(restaurant.getAddress())
                 .phone(restaurant.getPhone())
@@ -49,6 +64,7 @@ public class RestaurantService {
 
     public Restaurant toEntity(RestaurantDTO dto){
         Restaurant restaurant = new Restaurant();
+        restaurant.setId(dto.getId());
         restaurant.setName(dto.getName());
         restaurant.setAddress(dto.getAddress());
         restaurant.setPhone(dto.getPhone());
